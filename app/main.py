@@ -65,9 +65,9 @@ def send_art(path):
     return send_from_directory(generated_art_dir, path)
 
 
-@app.route('/frame.png')
+@app.route('/frame.webp')
 def send_frame():
-    return send_from_directory(".", "frame.png")
+    return send_from_directory(".", "frame.webp")
 
 
 if __name__ == "__main__":
