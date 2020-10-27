@@ -1,0 +1,80 @@
+<html>
+<head>
+    <title>Willekeurige Creatie</title>
+    <style>
+        html, body {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #851e20;
+        }
+        main {
+            display: block;
+            margin: 50px auto;
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            box-sizing: border-box;
+            color: black;
+        }
+
+        div {
+            width: 100%;
+            padding-bottom: 100%;
+            position: relative;
+            box-sizing: border-box;
+        }
+        img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #art {
+            box-sizing: border-box;
+            border-width: 100px;
+            border-style: solid;
+            border-image-source: url(/frame.png);
+            border-image-slice: 416 416 441 408;
+            border-image-width: 15% 15% 15% 15%;
+            border-image-repeat: stretch stretch;
+        }
+
+        @media (max-width: 642px)  {
+            #art {
+                border-width: 70px;
+                border-image-width: 15% 15% 15% 15%;
+            }
+        }
+
+        @media (max-width: 474px)  {
+            #art {
+                border: none;
+                padding: 25px;
+            }
+        }
+
+        a {
+            color: black;
+        }
+
+        p {
+            padding-left: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<main>
+    <div>
+        <img src="/art/{{image}}" id="art" />
+    </div>
+    <p>
+        Come back in an hour to see a new piece of art.<br/>
+        <a href="https://github.com/SijmenHuizenga/willekeurigecreaties">This</a> was built by <a href="https://sijmenhuizenga.nl/">Sijmen</a>.
+    </p>
+</main>
+</body>
+</html>

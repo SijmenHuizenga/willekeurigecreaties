@@ -1,0 +1,4 @@
+Flask
+schedule
+opencv-python
+numpy
