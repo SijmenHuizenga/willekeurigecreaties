@@ -15,8 +15,8 @@ generated_art_dir = "art"
 
 def new_art():
     print("creating new ART")
-    file = generated_art_dir + "/" + str(int(time.time())) + ".jpg"
-    create_art(source_art_dir, file)
+    file = str(int(time.time())) + ".jpg"
+    create_art(source_art_dir, generated_art_dir + "/" + file)
     global current_art
     current_art = file
     print("ART completed", file)
