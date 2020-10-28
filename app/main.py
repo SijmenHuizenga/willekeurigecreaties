@@ -39,7 +39,7 @@ print(current_art)
 def art_thread():
     print("Started ART thread")
 
-    schedule.every().hour.do(new_art)
+    schedule.every(3).minutes.do(new_art)
 
     while True:
         schedule.run_pending()
