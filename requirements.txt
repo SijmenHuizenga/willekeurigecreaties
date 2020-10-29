@@ -2,3 +2,4 @@ Flask
 schedule
 opencv-python
 numpy
+uwsgi

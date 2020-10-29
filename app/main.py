@@ -1,24 +1,25 @@
 import os
 
 import time
-import schedule
-from threading import Thread
-
-import werkzeug
-from flask import Flask, render_template, send_from_directory
+from flask import render_template, send_from_directory, Flask
+from uwsgidecorators import timer
 
 from art import create_art
 
-source_art_dir = "media"
-generated_art_dir = "art"
+# Because uWSGI will run in multiple threads, some of which are spoolers, some might run in another working directory.
+# So we need to ensure all th reads are looking at the same directory. Abosulte paths are the way to go.
+source_art_dir = os.path.abspath("media")
+generated_art_dir = os.path.abspath("art")
+
+app = Flask(__name__)
 
 
-def new_art():
+# Run every hour
+@timer(3600, target='spooler')
+def new_art(signum):
     print("creating new ART")
     file = str(int(time.time())) + ".jpg"
     create_art(source_art_dir, generated_art_dir + "/" + file)
-    global current_art
-    current_art = file
     print("ART completed", file)
 
     return file
@@ -29,35 +30,12 @@ def last_art():
     generated_art.sort()
     if len(generated_art) == 0:
         return new_art()
-    return generated_art[len(generated_art)-1]
-
-
-current_art = last_art()
-print(current_art)
-
-
-def art_thread():
-    print("Started ART thread")
-
-    schedule.every(3).minutes.do(new_art)
-
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
-
-
-thread = Thread(target=art_thread)
-thread.daemon = True
-
-if not werkzeug.serving.is_running_from_reloader():
-    thread.start()
-
-app = Flask(__name__)
+    return generated_art[len(generated_art) - 1]
 
 
 @app.route('/')
 def hello():
-    return render_template('art.html', image=current_art)
+    return render_template('art.html', image=last_art())
 
 
 @app.route('/art/<path:path>')
@@ -69,7 +47,3 @@ def send_art(path):
 def send_frame():
     return send_from_directory(".", "frame.webp")
 
-
-if __name__ == "__main__":
-    # Only for debugging while developing
-    app.run(host='0.0.0.0', debug=True, port=8123)

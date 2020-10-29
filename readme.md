@@ -11,7 +11,8 @@ A web-page that shows recycled #art
 2. Put a lot of images in `media` and give the program read access.
 3. Give the program write access to output.
 4. Install python requirements: `pip install requirements.txt`
-4. To run it, go itno `app` and `python main.py`
+5. To run it, go itno `app` and `uwsgi --spooler artspooler --master --processes 2 --http :9090 --module main:app`
+6. Visit `localhost:9090` to view it!
 
 ## Deploy it in production
 

@@ -45,6 +45,9 @@ def create_art(imagesdir, outputfile):
 
         tasklist = []
 
+        if len(files) == 0:
+            raise Exception("No media files found")
+
         for file in random.choices(files, k=images):
             if not path.exists(file):
                 print("Hu? File does not exist: " + file)
