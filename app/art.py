@@ -55,8 +55,10 @@ def create_art(imagesdir, outputfile):
             tasklist.append(pool.apply_async(process, args=(file, ), error_callback=asyncerror))
 
         for task in tasklist:
-            task.wait(timeout=10)
+            task.wait()
 
         output = np.frombuffer(shared_output.get_obj(), dtype=np.uint8).reshape((width, height, 4))
 
         cv.imwrite(outputfile, output)
+
+        del shared_output
