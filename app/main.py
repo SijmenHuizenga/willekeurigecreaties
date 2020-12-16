@@ -15,7 +15,7 @@ app = Flask(__name__)
 
 
 # Run every hour
-@timer(3600, target='spooler')
+@timer(3600, target='mule')
 def new_art(signum):
     print("creating new ART")
     file = str(int(time.time())) + ".jpg"
