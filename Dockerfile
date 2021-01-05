@@ -9,5 +9,5 @@ RUN pip install -r requirements.txt
 COPY ./app /app
 WORKDIR /app
 RUN mkdir artspooler
-CMD uwsgi --mule --master --die-on-term --http :80 --module main:app
+CMD python main.py
 STOPSIGNAL SIGTERM

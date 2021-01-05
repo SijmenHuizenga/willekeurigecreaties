@@ -1,8 +1,9 @@
 import os
 
 import time
+import schedule
+import threading
 from flask import render_template, send_from_directory, Flask
-from uwsgidecorators import timer
 
 from art import create_art
 
@@ -14,15 +15,22 @@ generated_art_dir = os.path.abspath("art")
 app = Flask(__name__)
 
 
-# Run every hour
-@timer(3600, target='mule')
-def new_art(signum):
+def new_art():
     print("creating new ART")
     file = str(int(time.time())) + ".jpg"
     create_art(source_art_dir, generated_art_dir + "/" + file)
     print("ART completed", file)
 
     return file
+
+schedule.every().hour.do(new_art)
+
+def run_schedule():
+    while True:
+        schedule.run_pending()
+        time.sleep(60)
+bgSchedule = threading.Thread(target=run_schedule)
+bgSchedule.start()
 
 
 def last_art():
@@ -47,3 +55,4 @@ def send_art(path):
 def send_frame():
     return send_from_directory(".", "frame.webp")
 
+app.run(debug=False, port=5000, host="0.0.0.0")
