@@ -9,5 +9,9 @@ RUN pip install -r requirements.txt
 COPY ./app /app
 WORKDIR /app
 RUN mkdir artspooler
+
+# ensure stdout is flushed immediately
+ENV PYTHONUNBUFFERED=1
+
 CMD python main.py
 STOPSIGNAL SIGTERM
